@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\AuthController;
-
+use App\Http\Controllers\Api\AuthController;
+    
 
 /*
     1. SOLID - Single Responsibility Principle
