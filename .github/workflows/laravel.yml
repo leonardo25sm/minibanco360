@@ -1,0 +1,31 @@
+name: Laravel CI (subcarpeta)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  laravel-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Clonar repositorio
+        uses: actions/checkout@v3
+
+      - name: 🧰 Configurar PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, pdo, sqlite
+          coverage: none
+
+      - name: 📂 Ir a subcarpeta del proyecto Laravel
+        working-directory: 01-proyecto-sanctum
+        run: |
+          cp .env.example .env
+          composer install
+          php artisan key:generate
+          php artisan migrate --env=testing --no-interaction --force
+          php artisan test
