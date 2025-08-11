@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
+
 
 class AuthController extends Controller
 {
@@ -21,6 +23,15 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+        ]);
+        // Log the registration event
+        // This is useful for auditing and debugging purposes
+        // You can log additional information like user ID, email, and IP address
+        // Adjust the log level and message as needed
+        Log::info('Usuario registrado exitosamente', [
+            'user_id' => $user->id,
+            'email' => $user->email,
+            'ip' => $request->ip(),
         ]);
 
         $token = $user->createToken('api_token')->plainTextToken;
